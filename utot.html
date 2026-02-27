@@ -1,0 +1,685 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Our Scrapbook</title>
+
+<style>
+body{
+    font-family:Arial,sans-serif;
+    background:#ffe6f2;
+    text-align:center;
+    padding:20px;
+    margin:0;
+}
+
+.container{
+    width:80%;
+    margin:auto;
+    background:white;
+    padding:20px;
+    border-radius:10px;
+    box-shadow:2px 2px 10px rgba(0,0,0,.2);
+}
+
+h1{color:#d63384;}
+
+.section{display:none;}
+
+.nav-button{
+    background:#ff99cc;
+    border:none;
+    padding:10px 15px;
+    color:white;
+    cursor:pointer;
+    border-radius:5px;
+    margin:5px;
+    transition:.3s;
+}
+.nav-button:hover{background:#c19ee0;}
+
+.accordion{
+    background:#c19ee0;
+    color:white;
+    padding:15px;
+    width:100%;
+    border:none;
+    text-align:left;
+    border-radius:10px;
+    margin-top:10px;
+    cursor:pointer;
+    transition:.3s;
+}
+.accordion:hover{background:#ff3385;}
+
+.panel{display:none;padding:10px;text-align:left;}
+
+.grid{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:8px;
+    justify-content:center;
+}
+
+.grid-item{
+    background:#ff99cc;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    color:white;
+    font-weight:bold;
+    box-shadow:2px 2px 5px rgba(0,0,0,.2);
+    transition:transform .3s;
+}
+.grid-item:hover{transform:scale(1.1);}
+.grid-item a{text-decoration:none;color:white;display:block;}
+
+/* Gallery */
+#photos {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+    .photos-container {
+    display: flex;
+    align-items: flex-start;     
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+.gallery-grid{
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+    justify-items: center;
+}
+
+.gallery-grid img{
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: transform .3s, box-shadow .3s;
+}
+
+.gallery-grid img:hover{
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+}
+.gallery{
+    display:flex;
+    gap:20px;
+    padding:30px 0;
+    overflow-x:auto;
+    justify-content:center;
+}
+.gallery::-webkit-scrollbar{display:none;}
+.gallery img{
+    width:200px;
+    height:240px;
+    object-fit:cover;
+    border-radius:22px;
+    cursor:pointer;
+    flex-shrink:0;
+    box-shadow:0 14px 30px rgba(0,0,0,.25);
+    transition:transform .3s ease;
+}
+.gallery img:hover{transform:scale(1.05);}
+
+/* Popup */
+.popup{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.6);
+    display:none;
+    align-items:center;
+    justify-content:center;
+}
+.popup.active{display:flex;}
+.popup-box{
+    background:#fff;
+    padding:15px;
+    border-radius:22px;
+    width:280px;
+    animation:fade .4s ease;
+}
+.popup-box img{
+    width:100%;
+    height:336px;
+    object-fit:cover;
+    border-radius:18px;
+}
+.popup-box h3{margin:10px 0 5px;color:#b03060;}
+.popup-box p{font-size:13px;color:#555;}
+.close{font-size:24px;cursor:pointer;margin-top:8px;display:block;color:#999;}
+
+@keyframes fade{
+    from {opacity:0;transform:scale(0.9);}
+    to {opacity:1;transform:scale(1);}
+}
+
+/* Songs */
+ .song-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+	#songs {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+.song-item{
+    background:#c19ee0;
+    padding:10px;
+    border-radius:10px;
+    text-align:center;
+    color:white;
+    font-weight:bold;
+    box-shadow:2px 2px 5px rgba(0,0,0,.2);
+    transition:transform .3s;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+}
+.song-item:hover{transform:scale(1.1);}
+.song-item img{width:150px;height:150px;border-radius:10px;margin-bottom:10px;}
+.song-item audio{width:100%;}
+
+/* Video */
+#videos {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+    width: 80%;
+    margin: 20px auto;
+    text-align: center;
+}
+
+	.video-container{
+    display:flex;
+    justify-content:center;
+    gap:15px;
+    flex-wrap:wrap;
+}
+
+.video-container video{
+    width:180px;
+    height:320px;   /* same height */
+    object-fit:cover; /* para hindi distorted */
+    border-radius:8px;
+}
+/* Carousel */
+.carousel{position:relative;width:150px;height:250px;transform-style:preserve-3d;animation:spin 20s infinite linear;}
+.carousel img{
+    position:absolute;width:150px;height:250px;left:50%;top:50%;
+    transform:translate(-50%,-50%);
+    border-radius:15px;
+    box-shadow:0 0 25px rgba(255,255,255,.3);
+    object-fit:cover;
+    transition:transform .5s ease,box-shadow .5s ease;
+    cursor:pointer;
+}
+.carousel-wrapper{display:flex;justify-content:center;align-items:center;width:100%;margin:40px 0;}
+.carousel img:hover{transform:scale(1.1) translate(-50%,-50%);box-shadow:0 0 40px rgba(255,255,255,.8);}
+@keyframes spin{from{transform:rotateY(0deg);} to{transform:rotateY(360deg);}}
+</style>
+</head>
+
+<body>
+<div class="container">
+<h1>MY SAFE PLACE 🤍</h1>
+
+<div class="navigation">
+<button class="nav-button" onclick="showSection('home')">Home</button>
+<button class="nav-button" onclick="showSection('letters')">Letters</button>
+<button class="nav-button" onclick="showSection('photos')">Photos</button>
+<button class="nav-button" onclick="showSection('songs')">Songs</button>
+<button class="nav-button" onclick="showSection('videos')">Videos</button>
+</div>
+
+<!-- HOME -->
+<div id="home" class="section">
+<h2>Welcome to the Page I Made Just For You!</h2>
+<p>Every moment with you is precious. Explore our memories together.</p>
+
+<div class="carousel-wrapper">
+<div class="carousel">
+    <img src="img/4.jpg" style="transform: rotateY(0deg) translateZ(400px);">
+    <img src="img/5.jpg" style="transform: rotateY(60deg) translateZ(400px);">
+    <img src="img/6.jpg" style="transform: rotateY(120deg) translateZ(400px);">
+    <img src="img/14.jpg" style="transform: rotateY(180deg) translateZ(400px);">
+    <img src="img/15.jpg" style="transform: rotateY(240deg) translateZ(400px);">
+    <img src="img/18.jpg" style="transform: rotateY(300deg) translateZ(400px);">    </div>
+</div>
+</div>
+
+<!-- LETTERS -->
+<div id="letters" class="section">
+<h2>Letters 💌</h2>
+<p>This letter contains everything from our first monthsary to our anniversary, the memories we’ve shared, the laughter, the sweet moments, those asarans that we've made when we were together, and even the times when I felt hurt. Every part of our journey matters, and through this letter, I want to express everything I’ve felt along the way. No matter what, one thing remains true, I love you, and I’m grateful for having you in my life. So whenever you feel alone or need assurance, just come back to this section and read it. I hope it reminds you of how much you mean to me.</p>
+
+<!-- 1st Anniversary -->
+<button class="accordion">1st Anniversary</button>
+<div class="panel">
+<div class="grid">
+<div class="grid-item"><a href="1st Monthsary.html">1st Monthsary💌</a></div>
+<div class="grid-item"><a href="2nd Monthsary.html">2nd Monthsary💌</a></div>
+<div class="grid-item"><a href="3rd Monthsary.html">3rd Monthsary💌</a></div>
+<div class="grid-item"><a href="4th Monthsary.html">4th Monthsary💌</a></div>
+<div class="grid-item"><a href="5th Monthsary.html">5th Monthsary💌</a></div>
+<div class="grid-item"><a href="6th Monthsary.html">6th Monthsary💌</a></div>
+<div class="grid-item"><a href="7th Monthsary.html">7th Monthsary💌</a></div>
+<div class="grid-item"><a href="8th Monthsary.html">8th Monthsary💌</a></div>
+<div class="grid-item"><a href="9th Monthsary.html">9th Monthsary💌</a></div>
+<div class="grid-item"><a href="10th Monthsary.html">10th Monthsary💌</a></div>
+<div class="grid-item"><a href="11th Monthsary.html">11th Monthsary💌</a></div>
+<div class="grid-item"><a href="12th Monthsary.html">12th Monthsary💌</a></div>
+</div>
+</div>
+
+<!-- 2nd Anniversary -->
+<button class="accordion">2nd Anniversary</button>
+<div class="panel">
+<div class="grid">
+<div class="grid-item"><a href="13th Monthsary.html">13th Monthsary💌</a></div>
+<div class="grid-item"><a href="14th Monthsary.html">14th Monthsary💌</a></div>
+<div class="grid-item"><a href="15th Monthsary.html">15th Monthsary💌</a></div>
+<div class="grid-item"><a href="16th Monthsary.html">16th Monthsary💌</a></div>
+<div class="grid-item"><a href="17th Monthsary.html">17th Monthsary💌</a></div>
+<div class="grid-item"><a href="18th Monthsary.html">18th Monthsary💌</a></div>
+<div class="grid-item"><a href="19th Monthsary.html">19th Monthsary💌</a></div>
+<div class="grid-item"><a href="20th Monthsary.html">20th Monthsary💌</a></div>
+<div class="grid-item"><a href="21st Monthsary.html">21st Monthsary💌</a></div>
+<div class="grid-item"><a href="22nd Monthsary.html">22nd Monthsary💌</a></div>
+<div class="grid-item"><a href="23rd Monthsary.html">23rd Monthsary💌</a></div>
+<div class="grid-item"><a href="24th Monthsary.html">24th Monthsary💌</a></div>
+</div>
+</div>
+
+<!-- 3rd Anniversary -->
+<button class="accordion">3rd Anniversary</button>
+<div class="panel">
+<div class="grid">
+<div class="grid-item"><a href="25th Monthsary.html">25th Monthsary💌</a></div>
+                    <div class="grid-item"><a href="26th Monthsary.html">26th Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="27th & 28th Monthsary.html">27th & 28th Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="29th Monthsary.html">29th Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="30th Monthsary.html">30th Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="31st Monthsary.html">31st Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="32nd Monthsary.html">32nd Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="33rd Monthsary.html">33rd Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="34th Monthsary.html">34th Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="35th Monthsary.html">35th Monthsary 💌</a></div>
+                    <div class="grid-item"><a href="3rd Anniversary.html">3rd Anniversary 💌</a></div>
+</div>
+</div>
+</div>
+</div>
+<!-- PHOTOS -->
+<div id="photos" class="section">
+<h2>Memories 📸</h2>
+<p>This section contains our pictures from our first gala together. It will serve as a gallery of our experiences, capturing the memories we’ve made and the ones we’ll continue to create in the future. Every photo is a reminder of the moments together that keeps growing between us. So, whenever you miss us, just come back to this section and relive our unforgettable memories. You can also kiss the picture if you want, HAHAHAHAHA (just kidding).</p>
+  <div class="gallery-grid">
+    <img src="img/6.jpg" onclick="openPopup(0,0)">
+    <img src="img/us.jpg" onclick="openPopup(1,1)">
+    <img src="img/67.jpg" onclick="openPopup(2,2)">
+    <img src="img/102.jpeg" onclick="openPopup(3,3)">
+    <img src="img/34.jpg" onclick="openPopup(4,4)">
+    <img src="img/41.jpg" onclick="openPopup(5,5)">      
+  <img src="img/103.jpeg" onclick="openPopup(6,6)">     
+    <img src="img/72.jpg" onclick="openPopup(7,7)">
+    <img src="img/84.jpg" onclick="openPopup(8,8)">
+    <img src="img/91.jpg" onclick="openPopup(9,9)">
+    <img src="img/98.jpeg" onclick="openPopup(10,10)">
+    <img src="img/kilig.jpg" onclick="openPopup(11,11)">
+ <img src="img/slay.jpg" onclick="openPopup(12,12)"> 
+      </div>
+</div>
+<!-- SONGS -->
+<div id="songs" class="section">
+<h2>Playlist</h2>
+<p> This section contains the songs that remind me of you. Every time I hear them, it feels so surreal, like they take me back to our moments together, making me relive the feelings, the smiles, and even the unspoken words between us. These songs hold a special place in my heart, just like you do. So whenever you want to relax or feel close to me, just come back to this section and let the music speak for us. </p>
+
+<div class="song-container">
+<div class="song-item">
+<h3>Enchanted</h3>
+<img src="img/purple.jpg">
+<audio controls>
+<source src="audio/Enchanted.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div class="song-item">
+<h3>Hanggang Kailan</h3>
+<img src="img/umuwi.jpg">
+<audio controls>
+<source src="audio/Umuwi_ka_na_baby.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div class="song-item">
+<h3>Mananatili</h3>
+<img src="img/moon.jpg">
+<audio controls>
+<source src="audio/Mananatili.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div class="song-item">
+<h3>Palagi</h3>
+<img src="img/home.avif">
+<audio controls>
+<source src="audio/Palagi.mp3" type="audio/mpeg">
+</audio>
+</div>
+<div class="song-item">
+<h3>Distansiya</h3>
+<img src="img/us.jpg">
+<audio controls>
+<source src="audio/Sa Kabila ng Distansiya.aac" type="audio/mpeg">
+</audio>
+</div>
+</div>
+</div>
+</div>
+
+<!-- VIDEOS -->
+<div id="videos" class="section">
+<h2>Our Video 📹</h2>
+<p>For now, this section will remind us that no matter how far we are from each other, we will always find a way to be together. But as time goes by and we finally meet again, this will serve as a collection of every moment we share, capturing the memories that bring us closer despite the distance.</p>
+<div class="video-container">
+<video controls>
+        <source src="video/us.mp4" type="video/mp4">
+    </video>
+    <video controls>
+        <source src="video/1.mp4" type="video/mp4">
+    </video>
+    <video controls>
+        <source src="video/2.mp4" type="video/mp4">
+    </video>
+    <video controls>
+        <source src="video/3.mp4" type="video/mp4">
+    </video>
+
+
+</div>
+
+</div> <!-- container -->
+
+<!-- POPUP -->
+<div class="popup" id="popup">
+  <div class="popup-box">
+    <img id="slideImg">
+    <h3 id="slideTitle"></h3>
+    <p id="slideText"></p>
+    <div style="margin-top:10px;">
+      <button onclick="prevImage()" style="padding:5px 10px;margin-right:5px;">⟨ Prev</button>
+      <button onclick="nextImage()" style="padding:5px 10px;">Next ⟩</button>
+    </div>
+    <span class="close" onclick="closePopup()">close</span>
+  </div>
+</div>
+<script>
+/* NAVIGATION */
+function showSection(section){
+document.querySelectorAll('.section')
+.forEach(sec=>sec.style.display='none');
+document.getElementById(section).style.display='block';
+}
+showSection('home');
+
+/* ACCORDION */
+document.querySelectorAll('.accordion').forEach(btn=>{
+btn.onclick=function(){
+const panel=this.nextElementSibling;
+panel.style.display=(panel.style.display==="block")?"none":"block";
+};
+});
+
+/* POPUP */
+const slides = [
+  {
+    title: "Photobooth",
+    text: "Little memories that feel like home 💕",
+    images: [
+      "img/4.jpg",        
+      "img/5.jpg",
+      "img/6.jpg",
+      "img/7.jpg",
+      "img/8.jpg",
+      "img/9.jpg",
+      "img/10.jpg",
+      "img/11.jpg",
+      "img/12.jpg",
+      "img/13.jpg",
+      "img/13(2).jpg",
+      "img/16.jpg",
+      "img/17.jpg"   
+    ]
+  },
+{
+    title: "Photobooth",
+    text: "Little memories that feel like home 💕",
+    images: [
+      "img/14.jpg",
+      "img/15.jpg",
+      "img/18.jpg",
+      "img/19.jpg",
+      "img/20.jpg",
+      "img/21.jpg",
+      "img/22.jpg",
+      "img/23.jpg",
+      "img/24.jpg", 
+    ]
+  },
+{
+    title: "2nd Anniversary",
+    text: "Still stuck with you, lucky me",
+    images: [
+      "img/55.jpg",
+      "img/56.jpg",
+      "img/57.jpg",
+      "img/58.jpg",
+      "img/59.jpg",
+      "img/60.jpg",
+      "img/61.jpg",
+      "img/62.jpg",
+      "img/63.jpg",
+      "img/64.jpg", 
+    ]
+  },
+{
+    title: "My heart in one kiss",
+    text: "Lost in your lips",
+    images: [
+      "img/25.jpeg",
+      "img/26.jpeg",
+      "img/27.jpeg",
+      "img/28.jpeg",
+      "img/31.jpg",
+      "img/32.jpg",
+      "img/33.jpg",
+	"img/kainaman.jpg",
+      "img/100.jpeg",
+      "img/101.jpeg",
+      "img/102.jpeg",
+    ]
+  },
+{
+    title: "POGI",
+    text: "Si Pogi pala 'to ay",
+    images: [
+      "img/34.jpg",
+      "img/35.jpg",
+      "img/36.jpg",
+      "img/37.jpg",
+      "img/38.jpg",
+    ]
+  },
+{
+    title: "POGI",
+    text: "Si Pogi pala 'to ay",
+    images: [
+      "img/41.jpg",
+      "img/42.jpg",
+      "img/43.jpg",
+      "img/44.jpg",
+      "img/45.jpg",
+      "img/46.jpg",
+      "img/47.jpg",
+      "img/48.jpg",
+      "img/49.jpg",
+      "img/50.jpg",
+      "img/51.jpg",
+      "img/52.jpg",
+      "img/53.jpg",
+      "img/54.jpg"
+
+    ]
+  },
+{
+    title: "2gether, 4rever",
+    text: "Kamay lang",
+    images: [
+      "img/103.jpeg",
+      "img/104.jpeg",
+      "img/69.jpg",
+    ]
+  },
+{
+    title: "Nothing fancy, just us.",
+    text: "Just a little us time.",
+    images: [
+       "img/72.jpg",
+      "img/73.jpg",
+      "img/74.jpg",
+      "img/75.jpg",
+      "img/76.jpg",
+      "img/77.jpg",
+      "img/78.jpg",
+         ]
+  },
+{
+    title: "My person",
+    text: "Being with you makes everything better",
+    images: [
+       "img/79.jpg",
+      "img/80.jpg",
+      "img/81.jpg",
+      "img/82.jpg",
+      "img/83.jpg",
+      "img/84.jpg",
+      "img/86.jpg",
+      "img/87.jpg",
+      "img/88.jpg",
+      "img/89.jpg",
+      "img/90.jpg",
+         ]
+  },
+
+ {
+    title: "Silent Flame",
+    text: "With you, every corner tells a story of belonging",
+    images: [
+       "img/91.jpg",
+      "img/92.jpg",
+      "img/93.jpg",
+      "img/94.jpg",
+      "img/95.jpg",
+      "img/96.jpg",
+         ]
+  },
+{
+    title: "Silent Flame",
+    text: "With you, every corner tells a story of belonging",
+    images: [
+       "img/97.jpeg",
+      "img/98.jpeg",
+      "img/99.jpeg",
+         ]
+  },
+{
+    title: "Silent Flame",
+    text: "With you, every corner tells a story of belonging",
+    images: [
+       "img/kilig.jpg",
+      "img/wow.jpg",
+         ]
+  },
+{
+    title: "My Love",
+    text: "With you, every corner tells a story of belonging",
+    images: [
+       "img/slay.jpg",
+      "img/k.jpg",
+       "img/1.jpg",
+      "img/2.jpg",
+      "img/3.jpg",
+       "img/i.jpg",
+
+         ]
+  },
+
+
+
+
+
+ 
+];
+
+let galleryIndex = 0;
+let imgIndex = 0;
+
+const popupEl = document.getElementById('popup');
+const slideImg = document.getElementById('slideImg');
+const slideTitle = document.getElementById('slideTitle');
+const slideText = document.getElementById('slideText');
+
+// Open popup when user clicks an image
+// Open popup when user clicks an image
+function openPopup(albumIndex, imageIndex){
+    galleryIndex = albumIndex; // which album
+    imgIndex = imageIndex;     // which image in that album
+    popupEl.classList.add("active");
+    showImage();
+}
+// Show current image
+function showImage(){
+    slideImg.src = slides[galleryIndex].images[imgIndex];
+    slideTitle.innerText = slides[galleryIndex].title;
+    slideText.innerText = slides[galleryIndex].text;
+}
+
+// Next image
+function nextImage(){
+    imgIndex = (imgIndex + 1) % slides[galleryIndex].images.length;
+    showImage();
+}
+
+// Previous image
+function prevImage(){
+    imgIndex = (imgIndex - 1 + slides[galleryIndex].images.length) % slides[galleryIndex].images.length;
+    showImage();
+}
+
+// Close popup
+function closePopup(){
+    popupEl.classList.remove("active");
+}</script>
+
+</body>
+</html>
